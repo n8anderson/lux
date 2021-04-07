@@ -77,6 +77,8 @@ class ScatterChart(AltairChart):
         )
         # Setting tooltip as non-null
         chart = chart.configure_mark(tooltip=alt.TooltipContent("encoding"))
+        chart = chart.configure_mark(opacity=1.0,
+                                     color='red')
         chart = chart.interactive()  # Enable Zooming and Panning
 
         #####################################
