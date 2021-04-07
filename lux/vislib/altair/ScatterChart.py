@@ -59,8 +59,8 @@ class ScatterChart(AltairChart):
         self.data = AltairChart.sanitize_dataframe(self.data)
         chart = (
             alt.Chart(self.data)
-            .mark_circle()
-            .encode(
+                .mark_circle()
+                .encode(
                 x=alt.X(
                     str(x_attr.attribute),
                     scale=alt.Scale(domain=(x_min, x_max)),
@@ -75,10 +75,11 @@ class ScatterChart(AltairChart):
                 ),
             )
         )
+
+        opacity = self.return_opacityval()
         # Setting tooltip as non-null
         chart = chart.configure_mark(tooltip=alt.TooltipContent("encoding"))
-        chart = chart.configure_mark(opacity=1.0,
-                                     color='red')
+        chart = chart.configure_mark(opacity=opacity)
         chart = chart.interactive()  # Enable Zooming and Panning
 
         #####################################
@@ -96,3 +97,13 @@ class ScatterChart(AltairChart):
 		chart = chart.interactive() # Enable Zooming and Panning
 		"""
         return chart
+
+    def return_opacityval(self):
+        if len(self.data) >= 500:
+            return 0.3
+        elif 150 <= len(self.data) < 500:
+            return 0.5
+        elif 25 <= len(self.data) < 150:
+            return 0.7
+        else:
+            return 7
