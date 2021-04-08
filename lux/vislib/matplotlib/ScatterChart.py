@@ -49,6 +49,7 @@ class ScatterChart(MatplotlibChart):
             y_attr_abv = y_attr.attribute[:15] + "..." + y_attr.attribute[-10:]
 
         df = self.data
+        opacity=self.return_opacityval()
 
         x_pts = df[x_attr.attribute]
         y_pts = df[y_attr.attribute]
@@ -67,8 +68,8 @@ class ScatterChart(MatplotlibChart):
             if color_attr_type == "quantitative":
                 self.fig, self.ax = matplotlib_setup(7, 5)
                 set_fig_code = "fig, ax = plt.subplots(7, 5)\n"
-                self.ax.scatter(x_pts, y_pts, c=vals, cmap="Blues", alpha=0.5)
-                plot_code += f"ax.scatter(x_pts, y_pts, c={vals}, cmap='Blues', alpha=0.5)\n"
+                self.ax.scatter(x_pts, y_pts, c=vals, cmap="Blues", alpha=opacity)
+                plot_code += f"ax.scatter(x_pts, y_pts, c={vals}, cmap='Blues', alpha={opacity})\n"
                 my_cmap = plt.cm.get_cmap("Blues")
                 max_color = max(colors)
                 sm = ScalarMappable(cmap=my_cmap, norm=plt.Normalize(0, max_color))
@@ -129,11 +130,11 @@ class ScatterChart(MatplotlibChart):
                     ncol=1, 
                     frameon=False,
                     fontsize='13')\n"""
-                plot_code += "scatter.set_alpha(0.5)\n"
+                plot_code += "scatter.set_alpha("+opacity+")\n"
         else:
             set_fig_code = "fig, ax = plt.subplots(4.5, 4)\n"
-            self.ax.scatter(x_pts, y_pts, alpha=0.5)
-            plot_code += f"ax.scatter(x_pts, y_pts, alpha=0.5)\n"
+            self.ax.scatter(x_pts, y_pts, alpha=opacity)
+            plot_code += f"ax.scatter(x_pts, y_pts, alpha={opacity})\n"
         self.ax.set_xlabel(x_attr_abv, fontsize="15")
         self.ax.set_ylabel(y_attr_abv, fontsize="15")
 
@@ -148,3 +149,13 @@ class ScatterChart(MatplotlibChart):
         self.code += plot_code
         self.code += f"ax.set_xlabel('{x_attr_abv}', fontsize='15')\n"
         self.code += f"ax.set_ylabel('{y_attr_abv}', fontsize='15')\n"
+
+    def return_opacityval(self):
+        if len(self.data) >= 500:
+            return 0.3
+        elif 150 <= len(self.data) < 500:
+            return 0.5
+        elif 25 <= len(self.data) < 150:
+            return 0.7
+        else:
+            return 7
