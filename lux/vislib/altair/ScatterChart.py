@@ -76,10 +76,10 @@ class ScatterChart(AltairChart):
             )
         )
 
-        opacity = self.return_opacityval()
+        opacity = self.return_opacityval()  # New
         # Setting tooltip as non-null
         chart = chart.configure_mark(tooltip=alt.TooltipContent("encoding"))
-        chart = chart.configure_mark(opacity=opacity)
+        chart = chart.configure_mark(opacity=opacity)  # New
         chart = chart.interactive()  # Enable Zooming and Panning
 
         #####################################
@@ -98,6 +98,7 @@ class ScatterChart(AltairChart):
 		"""
         return chart
 
+    # New
     def return_opacityval(self):
         if len(self.data) >= 500:
             return 0.3
