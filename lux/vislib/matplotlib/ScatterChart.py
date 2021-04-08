@@ -119,7 +119,7 @@ class ScatterChart(MatplotlibChart):
                     frameon=False,
                     fontsize="13",
                 )
-                scatter.set_alpha(0.5)
+                scatter.set_alpha(opacity)
                 plot_code += f"""ax.legend(
                     handles=scatter.legend_elements(num=range(0, len({unique})))[0],
                     labels={unique},
