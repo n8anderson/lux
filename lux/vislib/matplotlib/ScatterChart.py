@@ -49,7 +49,7 @@ class ScatterChart(MatplotlibChart):
             y_attr_abv = y_attr.attribute[:15] + "..." + y_attr.attribute[-10:]
 
         df = self.data
-        opacity = self.return_opacityval()  # New
+        opacity = self.return_opacityval()  # new variable to hold opacity value of chart
 
         x_pts = df[x_attr.attribute]
         y_pts = df[y_attr.attribute]
@@ -150,7 +150,7 @@ class ScatterChart(MatplotlibChart):
         self.code += f"ax.set_xlabel('{x_attr_abv}', fontsize='15')\n"
         self.code += f"ax.set_ylabel('{y_attr_abv}', fontsize='15')\n"
 
-    # New
+    # determines opacity of scatter chart based on number of data points
     def return_opacityval(self):
         if len(self.data) >= 500:
             return 0.3
