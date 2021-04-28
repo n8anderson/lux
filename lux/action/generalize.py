@@ -33,8 +33,8 @@ def generalize(ldf):
     recommendations : Dict[str,obj]
             object with a collection of visualizations that result from the Generalize action.
     """
-    # takes in a dataObject and generates a list of new dataObjects, each with a single measure from the original object removed
-    # -->  return list of dataObjects with corresponding interestingness scores
+    # takes in a dataObject and generates a list of new dataObjects, each with a single measure from the original
+    # object removed -->  return list of dataObjects with corresponding interestingness scores
 
     output = []
     excluded_columns = []

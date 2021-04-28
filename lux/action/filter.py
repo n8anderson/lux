@@ -23,7 +23,8 @@ from lux.utils.utils import get_filter_specs
 
 def add_filter(ldf):
     """
-    Iterates over all possible values of a categorical variable and generates visualizations where each categorical value filters the data.
+    Iterates over all possible values of a categorical variable and generates visualizations where each categorical
+    value filters the data.
 
     Parameters
     ----------
@@ -38,7 +39,8 @@ def add_filter(ldf):
     filters = utils.get_filter_specs(ldf._intent)
     filter_values = []
     output = []
-    # if fltr is specified, create visualizations where data is filtered by all values of the fltr's categorical variable
+    # if fltr is specified, create visualizations where data is filtered by all values of the fltr's categorical
+    # variable
     column_spec = utils.get_attrs_specs(ldf.current_vis[0].intent)
     column_spec_attr = list(map(lambda x: x.attribute, column_spec))
     if len(filters) == 1:
@@ -48,8 +50,10 @@ def add_filter(ldf):
         if ldf.data_type[fltr.attribute] == "nominal":
             recommendation = {
                 "action": "Filter",
-                "description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an alternative value.",
-                "long_description": f"Swap out the filter value for {fltr.attribute} to other possible values, while keeping all else the same. Visualizations are ranked based on interestingness",
+                "description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an "
+                               f"alternative value.",
+                "long_description": f"Swap out the filter value for {fltr.attribute} to other possible values, while "
+                                    f"keeping all else the same. Visualizations are ranked based on interestingness",
             }
             unique_values = ldf.unique_values[fltr.attribute]
             filter_values.append(fltr.value)
@@ -64,8 +68,10 @@ def add_filter(ldf):
         elif ldf.data_type[fltr.attribute] == "quantitative":
             recommendation = {
                 "action": "Filter",
-                "description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an alternative inequality operation.",
-                "long_description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an alternative inequality operation.",
+                "description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an "
+                               f"alternative inequality operation.",
+                "long_description": f"Changing the <p class='highlight-intent'>{fltr.attribute}</p> filter to an "
+                                    f"alternative inequality operation.",
             }
 
             def get_complementary_ops(fltr_op):
@@ -101,7 +107,8 @@ def add_filter(ldf):
         recommendation = {
             "action": "Filter",
             "description": f"Applying filters to the <p class='highlight-intent'>{intended_attrs}</p> intent.",
-            "long_description": f"Adding any filter while keeping the attributes on the x and y axes fixed. Visualizations are ranked based on interestingness",
+            "long_description": f"Adding any filter while keeping the attributes on the x and y axes fixed. "
+                                f"Visualizations are ranked based on interestingness",
         }
         categorical_vars = []
         for col in list(ldf.columns):

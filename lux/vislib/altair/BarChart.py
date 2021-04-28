@@ -89,7 +89,7 @@ class BarChart(AltairChart):
             )
             y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', title='{agg_title}', axis=alt.Axis(title='{agg_title}'))"
             if x_attr.sort == "ascending":
-                x_attr_field.sort = "-y"
+                #x_attr_field.sort = "-y"
                 x_attr_field_code = f"alt.X('{x_attr.attribute}', type= '{x_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{x_attr_abv}'),sort='-y')"
         k = 10
         self._topkcode = ""
