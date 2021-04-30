@@ -107,4 +107,5 @@ class ScatterChart(AltairChart):
         elif 25 <= len(self.data) < 150:
             return 0.7
         else:
-            return 7
+            return 1
+
