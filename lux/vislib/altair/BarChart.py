@@ -90,7 +90,7 @@ class BarChart(AltairChart):
             y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', title='{agg_title}', axis=alt.Axis(title='{agg_title}'))"
             if x_attr.sort == "ascending":
                 # Removing this line of code prevents the Y from being sorted in ascending order (i.e the datapoints)
-                #x_attr_field.sort = "-y"
+                # x_attr_field.sort = "-y"
                 x_attr_field_code = f"alt.X('{x_attr.attribute}', type= '{x_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{x_attr_abv}'),sort='-y')"
         k = 10
         self._topkcode = ""
@@ -119,7 +119,9 @@ class BarChart(AltairChart):
 		)
 		chart = chart + text\n"""
         self.data = AltairChart.sanitize_dataframe(self.data)
-        chart = alt.Chart(self.data).mark_bar().encode(y=y_attr_field, x=x_attr_field)
+        chart = alt.Chart(self.data).mark_bar().encode(column=alt.Column(self.data.columns[0]), y=y_attr_field,
+                                                       x=x_attr_field)
+        print(self.data.columns)
 
         # TODO: tooltip messes up the count() bar charts
         # Can not do interactive whenever you have default count measure otherwise output strange error (Javascript Error: Cannot read property 'length' of undefined)
