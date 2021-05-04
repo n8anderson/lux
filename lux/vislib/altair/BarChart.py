@@ -119,7 +119,7 @@ class BarChart(AltairChart):
 		)
 		chart = chart + text\n"""
         self.data = AltairChart.sanitize_dataframe(self.data)
-        chart = alt.Chart(self.data).mark_bar().encode(column=alt.Column(self.data.columns[0]), y=y_attr_field,
+        chart = alt.Chart(self.data).mark_bar().encode(y=y_attr_field,
                                                        x=x_attr_field)
         print(self.data.columns)
 
