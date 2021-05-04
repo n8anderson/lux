@@ -74,27 +74,18 @@ def add_filter(ldf):
                                     f"alternative inequality operation.",
             }
 
-            def get_complementary_ops(fltr_op):
-                if fltr_op == ">":
-                    return "<="
-                elif fltr_op == "<":
-                    return ">="
-                elif fltr_op == ">=":
-                    return "<"
-                elif fltr_op == "<=":
-                    return ">"
-                # TODO: need to support case where fltr_op is "=" --> auto-binned ranges
-
             # Create vis with complementary filter operations
-            new_spec = column_spec.copy()
-            new_filter = lux.Clause(
-                attribute=fltr.attribute,
-                filter_op=get_complementary_ops(fltr.filter_op),
-                value=fltr.value,
-            )
-            new_spec.append(new_filter)
-            temp_vis = Vis(new_spec, score=1)
-            output.append(temp_vis)
+            for op in get_complementary_ops(fltr.filter_op):
+                new_spec = column_spec.copy()
+                new_filter = lux.Clause(
+                    attribute=fltr.attribute,
+                    filter_op=op,
+                    value=fltr.value,
+                )
+                new_spec.append(new_filter)
+                temp_vis = Vis(new_spec, score=1)
+                output.append(temp_vis)
+
     # if no existing filters, create filters using unique values from all categorical variables in the dataset
     else:
         intended_attrs = ", ".join(
@@ -150,3 +141,23 @@ def add_filter(ldf):
     else:
         recommendation["collection"] = vlist
     return recommendation
+
+
+def get_complementary_ops(fltr_op):
+    if fltr_op == ">":
+        yield "<="
+        yield "<"
+    elif fltr_op == "<":
+        yield ">="
+        yield ">"
+    elif fltr_op == ">=":
+        yield "<"
+        yield "<="
+    elif fltr_op == "<=":
+        yield ">"
+        yield ">="
+    elif fltr_op == "=":
+        yield "<"
+        yield ">"
+        yield "<="
+        yield ">="
