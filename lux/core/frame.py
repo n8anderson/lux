@@ -193,19 +193,41 @@ class LuxDataFrame(pd.DataFrame):
         return self._intent
 
     @intent.setter
-    def intent(self, intent_input: Union[List[Union[str, Clause]], Vis]):
-        is_list_input = isinstance(intent_input, list)
-        is_vis_input = isinstance(intent_input, Vis)
-        if not (is_list_input or is_vis_input):
-            raise TypeError(
-                "Input intent must be either a list (of strings or lux.Clause) or a lux.Vis object."
-                "\nSee more at: https://lux-api.readthedocs.io/en/latest/source/guide/intent.html"
-            )
-        if is_list_input:
-            self.set_intent(intent_input)
-        elif is_vis_input:
-            self.set_intent_as_vis(intent_input)
-
+    def intent(self, inten):
+        for intent_input in inten:
+            if isinstance(intent_input, lux.Clause):
+                is_list_input = isinstance(inten, list)
+                is_vis_input = isinstance(inten, Vis)
+                if not (is_list_input or is_vis_input):
+                    raise TypeError(
+                        "Input intent must be either a list (of strings or lux.Clause) or a lux.Vis object."
+                        "\nSee more at: https://lux-api.readthedocs.io/en/latest/source/guide/intent.html"
+                    )
+                if is_list_input:
+                    self.set_intent(inten)
+                elif is_vis_input:
+                    self.set_intent_as_vis(inten)
+            elif isinstance(intent_input, str):
+                if len(intent_input) <= 1:
+                    inten=[lux.Clause(f"{inten}")]
+                    is_list_input = isinstance(inten, list)
+                    is_vis_input = isinstance(inten, Vis)
+                    if is_list_input:
+                        self.set_intent(inten)
+                    elif is_vis_input:
+                        self.set_intent_as_vis(inten)
+                    break
+                else:
+                    intent_input = [lux.Clause(f"{intent_input}")]
+                    is_list_input = isinstance(intent_input, list)
+                    is_vis_input = isinstance(intent_input, Vis)
+                    if is_list_input:
+                        self.set_intent(intent_input)
+                    elif is_vis_input:
+                        self.set_intent_as_vis(intent_input)
+                    break
+            else:
+                print("other")
     def clear_intent(self):
         self.intent = []
         self.expire_recs()
@@ -306,9 +328,9 @@ class LuxDataFrame(pd.DataFrame):
         # _parse_validate_compile_intent does not call executor,
         # we only attach data to current vis when user request current_vis
         if (
-            self._current_vis is not None
-            and len(self._current_vis) > 0
-            and self._current_vis[0].data is None
+                self._current_vis is not None
+                and len(self._current_vis) > 0
+                and self._current_vis[0].data is None
         ):
             lux.config.executor.execute(self._current_vis, self)
         return self._current_vis
@@ -351,7 +373,7 @@ class LuxDataFrame(pd.DataFrame):
 
     def get_SQL_attributes(self):
         if "." in self.table_name:
-            table_name = self.table_name[self.table_name.index(".") + 1 :]
+            table_name = self.table_name[self.table_name.index(".") + 1:]
         else:
             table_name = self.table_name
         query = f"SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = '{table_name}'"
@@ -384,7 +406,7 @@ class LuxDataFrame(pd.DataFrame):
         sql_dtypes = {}
         self.get_SQL_cardinality()
         if "." in self.table_name:
-            table_name = self.table_name[self.table_name.index(".") + 1 :]
+            table_name = self.table_name[self.table_name.index(".") + 1:]
         else:
             table_name = self.table_name
         # get the data types of the attributes in the SQL table
@@ -480,7 +502,7 @@ class LuxDataFrame(pd.DataFrame):
                     rec_df._append_rec(rec_infolist, row_group(rec_df))
                 rec_df._append_rec(rec_infolist, column_group(rec_df))
             elif not (len(rec_df) < 5 and not rec_df.pre_aggregated) and not (
-                self.index.nlevels >= 2 or self.columns.nlevels >= 2
+                    self.index.nlevels >= 2 or self.columns.nlevels >= 2
             ):
                 from lux.action.custom import custom_actions
 
