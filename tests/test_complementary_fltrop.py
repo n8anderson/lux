@@ -1,5 +1,6 @@
 from lux.action import filter
 
+
 def test_complemetary_fltrop():
     test_lessthan = []
     for op in filter.get_complementary_ops("<"):
