@@ -43,24 +43,27 @@ def date_formatter(time_stamp, ldf):
     inverted_data_type = lux.config.executor.invert_data_type(ldf.data_type)
     # TODO: method for data_type_lookup to data_type
     datetime = pd.to_datetime(time_stamp)
+    granularity = []
     if inverted_data_type["temporal"]:
         # assumes only one temporal column, may need to change this function to recieve multiple temporal columns in the future
-        # Handling multiple temporal columns TEST
+        # COMP 490 to allow for multiple columns by running through all the temporal columns and adding them
+        # to a granularity list, the list is then parsed through and saved as a code string that is used
+        # to create the graph
         for i in range(len(inverted_data_type["temporal"])):
-            print("Test:", inverted_data_type["temporal"][i])
             date_column = ldf[inverted_data_type["temporal"][i]]
 
-            granularity = compute_date_granularity(date_column)
+            granularity.append(compute_date_granularity(date_column))
     date_str = ""
-    if granularity == "year":
-        date_str += str(datetime.year)
-    elif granularity == "month":
-        date_str += str(datetime.year) + "-" + str(datetime.month)
-    elif granularity == "day":
-        date_str += str(datetime.year) + "-" + str(datetime.month) + "-" + str(datetime.day)
-    else:
-        # non supported granularity
-        return datetime.date()
+    for gran in granularity:
+        if gran == "year":
+            date_str += str(datetime.year)
+        elif gran == "month":
+            date_str += str(datetime.year) + "-" + str(datetime.month)
+        elif gran == "day":
+            date_str += str(datetime.year) + "-" + str(datetime.month) + "-" + str(datetime.day)
+        else:
+            # non supported granularity
+            return datetime.date()
 
     return date_str
 
