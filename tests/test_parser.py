@@ -94,6 +94,13 @@ def test_case7(global_var):
     assert len(df.current_vis) == 3
     df.clear_intent()
 
+    
+def test_truncate(global_var):
+    df = pytest.car_df
+    df.intent = [["Name"]]
+    df._ipython_display_()
+    assert len(df._intent[0].value) == 20
+    df.clear_intent()
 
 def test_validator_invalid_value(global_var):
     df = pytest.college_df
