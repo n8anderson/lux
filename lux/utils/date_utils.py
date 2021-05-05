@@ -45,9 +45,12 @@ def date_formatter(time_stamp, ldf):
     datetime = pd.to_datetime(time_stamp)
     if inverted_data_type["temporal"]:
         # assumes only one temporal column, may need to change this function to recieve multiple temporal columns in the future
-        date_column = ldf[inverted_data_type["temporal"][0]]
+        # Handling multiple temporal columns TEST
+        for i in range(len(inverted_data_type["temporal"])):
+            print("Test:", inverted_data_type["temporal"][i])
+            date_column = ldf[inverted_data_type["temporal"][i]]
 
-    granularity = compute_date_granularity(date_column)
+            granularity = compute_date_granularity(date_column)
     date_str = ""
     if granularity == "year":
         date_str += str(datetime.year)
