@@ -118,6 +118,10 @@ class BarChart(MatplotlibChart):
             self.ax.barh(bars, measurements, align="center")
             plot_code += f"ax.barh(bars, measurements, align='center')\n"
 
+        # print("------------CHART START-------------")
+        # print("X:", x_attr)
+        # print("Y:", y_attr)
+        # print("Y len:", y_attr_abv)
         y_ticks_abbev = df[bar_attr].apply(lambda x: str(x)[:10] + "..." if len(str(x)) > 10 else str(x))
         self.ax.set_yticks(bars)
         self.ax.set_yticklabels(y_ticks_abbev)
