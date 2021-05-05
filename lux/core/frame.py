@@ -216,7 +216,6 @@ class LuxDataFrame(pd.DataFrame):
                         self.set_intent(inten)
                     elif is_vis_input:
                         self.set_intent_as_vis(inten)
-                    break
                 else:
                     intent_input = [lux.Clause(f"{intent_input}")]
                     is_list_input = isinstance(intent_input, list)
