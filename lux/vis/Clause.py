@@ -120,7 +120,16 @@ class Clause:
         else:
             clauseStr = f"{self.attribute}{self.filter_op}{self.value}"
         return clauseStr
-
+    
+    #added truncate method
+    def truncate(self):
+        val = self.value()
+        if len(val) > 20:
+            val_2 = val[0:20]
+            return val_2
+        else:
+            return val
+    
     def __repr__(self):
         attributes = []
         if self.description != "":
