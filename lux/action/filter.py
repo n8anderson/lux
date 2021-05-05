@@ -75,6 +75,7 @@ def add_filter(ldf):
             }
 
             # Create vis with complementary filter operations
+            # NOTE: This section of code has been modified to allow for the rendering of multiple vis
             for op in get_complementary_ops(fltr.filter_op):
                 new_spec = column_spec.copy()
                 new_filter = lux.Clause(
@@ -143,6 +144,7 @@ def add_filter(ldf):
     return recommendation
 
 
+# return complementary filters based on user selected filter
 def get_complementary_ops(fltr_op):
     if fltr_op == ">":
         yield "<="
