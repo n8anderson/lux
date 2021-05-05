@@ -119,7 +119,8 @@ class BarChart(AltairChart):
 		)
 		chart = chart + text\n"""
         self.data = AltairChart.sanitize_dataframe(self.data)
-        chart = alt.Chart(self.data).mark_bar
+        chart = alt.Chart(self.data).mark_bar().encode(y=y_attr_field,
+                                                       x=x_attr_field)
         print(self.data.columns)
 
         # TODO: tooltip messes up the count() bar charts
