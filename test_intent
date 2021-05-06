@@ -1,0 +1,4 @@
+To test intent import test_intent.ipynb into jupyter notebook
+on the test_intent.ipynb we need to change the current working direectory 
+then change the os.chdir to current working directory ex for my local mechine it would be ('C:\\Users\\james\\PycharmProjects\\compcaplux')
+this test to see if string / list of strings / list of lux.clause works as input to create graphs with intent
