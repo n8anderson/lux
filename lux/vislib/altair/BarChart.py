@@ -69,9 +69,10 @@ class BarChart(AltairChart):
             y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{y_attr_abv}'))"
             x_attr_field_code = f"alt.X('{x_attr.attribute}', type= '{x_attr.data_type}', title='{agg_title}', axis=alt.Axis(title='{agg_title}'))"
 
-            if y_attr.sort == "ascending":
-                y_attr_field.sort = "-x"
-                y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{y_attr_abv}'), sort ='-x')"
+            # Removing this block doesnt sort by ascending datapoints and keeps the categorical data sorted properly
+            #if y_attr.sort == "ascending":
+                #y_attr_field.sort = "-x"
+                #y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{y_attr_abv}'), sort ='-x')"
         else:
             agg_title = get_agg_title(y_attr)
             measure_attr = y_attr.attribute
@@ -88,10 +89,10 @@ class BarChart(AltairChart):
                 axis=alt.Axis(title=agg_title),
             )
             y_attr_field_code = f"alt.Y('{y_attr.attribute}', type= '{y_attr.data_type}', title='{agg_title}', axis=alt.Axis(title='{agg_title}'))"
-            if x_attr.sort == "ascending":
+            #if x_attr.sort == "ascending":
                 # Removing this line of code prevents the Y from being sorted in ascending order (i.e the datapoints)
                 # x_attr_field.sort = "-y"
-                x_attr_field_code = f"alt.X('{x_attr.attribute}', type= '{x_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{x_attr_abv}'),sort='-y')"
+                #x_attr_field_code = f"alt.X('{x_attr.attribute}', type= '{x_attr.data_type}', axis=alt.Axis(labelOverlap=True, title='{x_attr_abv}'),sort='-y')"
         k = 10
         self._topkcode = ""
         n_bars = len(self.data.iloc[:, 0].unique())
